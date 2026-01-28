@@ -3,22 +3,25 @@ graph TD
 Incomer[3-Phase Supply] == "10mm² L/N" ==> MB[Main Breaker 32A] 
 MB == "10mm² L/N" ==> SPD[SPD Type 2 4P]
 
+
+
 %% --- 2-3: Grounding & Main Neutral Split ---
 SPD -. "16mm² PE" .-> PE_Bus[Main Earth Bar]
 SPD -- "10mm² N" --> N_Block[Main Neutral Block]
+SPD == "10mm² L" ==> MCB_kitchen_3P[MCB 3P C16: Oven/Hob]
 
-%% --- 4-9: Phase & Neutral Distribution to RCCBs ---
-SPD == "10mm² L1" ==> R1[RCCB 1: 40A]
-SPD == "10mm² L2" ==> R2[RCCB 2: 40A]
-SPD == "10mm² L3" ==> R3[RCCB 3: 40A]
+%%R1, R2, R3: Parallel feed from MCB_kitchen_3P AND SPD
+MCB_kitchen_3P == "10mm² L1" ==> R1[RCCB 1: 40A]
+MCB_kitchen_3P == "10mm² L2" ==> R2[RCCB 2: 40A]
+MCB_kitchen_3P == "10mm² L3" ==> R3[RCCB 3: 40A]
 N_Block -- "10mm² N" --> R1
 N_Block -- "10mm² N" --> R2
 N_Block -- "10mm² N" --> R3
 
 subgraph Rail_1 [Rail 1: L1]
-    R1 -- "10mm² N" --> N_Bar1[N-Bar Rail 1]
-    
-    R1 == "Busbar L" ==> MCB_darbo_roz[MCB C16: 2x Child room soc. 1000w]
+    R1 -- "10mm² N" --> N_Bar1[N-Bar Rail 1]    
+    R1 ==>|"Busbar L1"| MCB_darbo_roz[MCB C16: 2x Child room soc. 1000w] 
+    %% Busbar L1: Distributes Phase L1 to all MCBs in this rail 
     MCB_darbo_roz ==> MCB_vaiko_lemp[MCB C2: 2x Child room light 100w]
     MCB_vaiko_lemp  ==> MCB_svetaine_lemp[MCB C2: Living room light 150w]
     MCB_svetaine_lemp ==> MCB_miegamas_tv[MCB B6: Bedroom TV 200w]
@@ -27,19 +30,21 @@ subgraph Rail_1 [Rail 1: L1]
     MCB_drabuzine_roz ==> MCB_svetaine_roz[MCB B16: Living room soc. 800w]
 end
 
-subgraph Rail_1_sub [Rail 1 sub: L1]
+subgraph Rail_1_sub [Sub-box rail: L1]
     MCB_svetaine_roz ==>|2.5mm²| MCB_skalbimo_roz[MCB C10: washer dryer 2000w] 
-    MCB_skalbimo_roz ==> MCB_ev_skoda_roz[MCB C10: ev-skoda 2500w]
+    %% Rail_1_sub: Parallel feed from MCB_svetaine_roz AND Busbar L1 (same connection point)
+    MCB_skalbimo_roz ==>|"Busbar L1-2"| MCB_ev_skoda_roz[MCB C10: ev-skoda 2500w]
     MCB_ev_skoda_roz ==> MCB_rekup[MCB B6: recuperation 200w]
     MCB_rekup ==> MCB_network[MCB C6: network 100w]
     
-    N_Bar1 -->|2.5mm²| N_Bar1_1[N-Bar Rail 1-1]    
+    N_Bar1 -->|2.5mm²| N_Bar1_1[N-Bar Rail 1-1]
 end
 
 subgraph Rail_2 [Rail 2: L2]
     R2 -- "10mm² N" --> N_Bar2[N-Bar Rail 2]
 
-    R2 == "Busbar L" ==> MCB_lauko_lemp[MCB C2: Garden lights 70w]
+    R2 ==>|"Busbar L2"| MCB_lauko_lemp[MCB C2: Garden lights 70w]
+    %% Busbar L2: Distributes Phase L2 to all MCBs in this rail 
     MCB_lauko_lemp ==> MCB_lauko_roz[MCB B25: EV-Leaf 2500w]
     MCB_lauko_roz ==> MCB_indaplove[MCB C10: Dishwasher 2000w]
     MCB_indaplove ==> MCB_wc1[MCB C10: WC1 soc 10w]
@@ -50,7 +55,8 @@ end
 subgraph Rail_3 [Rail 3: L3]
     R3 -- "10mm² N" --> N_Bar3[N-Bar Rail 3]
 
-    R3 ==>|Busbar L| MCB_garazo_lemp[MCB C2: garage lamps 200w]
+    R3 ==>|"Busbar L3"| MCB_garazo_lemp[MCB C2: garage lamps 200w]
+    %% Busbar L3: Distributes Phase L3 to all MCBs in this rail 
     MCB_garazo_lemp ==> MCB_signalizacija[MCB B6: security system 15w]
     MCB_signalizacija ==> MCB_vartai[MCB B6: garage doors motor 100w]
     MCB_vartai ==> MCB_katilas[MCB B6: gas floor & water heater 150w]
