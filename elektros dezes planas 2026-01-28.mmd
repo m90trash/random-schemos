@@ -1,0 +1,70 @@
+graph TD
+%% --- 0-1: Main Feed --- 
+Incomer[3-Phase Supply] == "10mm² L/N" ==> MB[Main Breaker 32A] 
+MB == "10mm² L/N" ==> SPD[SPD Type 2 4P]
+
+%% --- 2-3: Grounding & Main Neutral Split ---
+SPD -. "16mm² PE" .-> PE_Bus[Main Earth Bar]
+SPD -- "10mm² N" --> N_Block[Main Neutral Block]
+
+%% --- 4-9: Phase & Neutral Distribution to RCCBs ---
+SPD == "10mm² L1" ==> R1[RCCB 1: 40A]
+SPD == "10mm² L2" ==> R2[RCCB 2: 40A]
+SPD == "10mm² L3" ==> R3[RCCB 3: 40A]
+N_Block -- "10mm² N" --> R1
+N_Block -- "10mm² N" --> R2
+N_Block -- "10mm² N" --> R3
+
+subgraph Rail_1 [Rail 1: L1]
+    R1 -- "10mm² N" --> N_Bar1[N-Bar Rail 1]
+    R1 == "Busbar L" ==> MCB_EV1[MCB 20A C: EV 1]
+    R1 == "Busbar L" ==> MCB_S1[MCB 16A B: Sockets]
+    
+    MCB_EV1 == "4mm² L" ==> S_EV1[Shelly PM: EV 1]
+    N_Bar1 -- "4mm² N" --> S_EV1
+    
+    MCB_S1 == "2.5mm² L" ==> S_S1[Shelly PM: Sockets]
+    N_Bar1 -- "2.5mm² N" --> S_S1
+end
+
+subgraph Rail_2 [Rail 2: L2]
+    R2 -- "10mm² N" --> N_Bar2[N-Bar Rail 2]
+    R2 == "Busbar L" ==> MCB_O[MCB 16A C: Oven]
+    R2 == "Busbar L" ==> MCB_DW[MCB 16A B: Dishwasher]
+
+    MCB_O == "2.5mm² L" ==> S_O[Shelly PM: Oven]
+    N_Bar2 -- "2.5mm² N" --> S_O
+    
+    MCB_DW == "2.5mm² L" ==> S_DW[Shelly PM: Dishwasher]
+    N_Bar2 -- "2.5mm² N" --> S_DW
+end
+
+subgraph Rail_3 [Rail 3: L3]
+    R3 -- "10mm² N" --> N_Bar3[N-Bar Rail 3]
+    R3 == "Busbar L" ==> MCB_EV2[MCB 20A C: EV 2]
+    R3 == "Busbar L" ==> MCB_AC[MCB 16A C: HVAC]
+
+    MCB_EV2 == "4mm² L" ==> S_EV2[Shelly PM: EV 2]
+    N_Bar3 -- "4mm² N" --> S_EV2
+    
+    MCB_AC == "2.5mm² L" ==> S_AC[Shelly PM: HVAC]
+    N_Bar3 -- "2.5mm² N" --> S_AC
+end
+
+%% Element Styles
+style N_Block fill:#0000ff,color:#fff
+style N_Bar1 fill:#0000ff,color:#fff
+style N_Bar2 fill:#0000ff,color:#fff
+style N_Bar3 fill:#0000ff,color:#fff
+style PE_Bus fill:#008000,color:#fff
+
+%% Link Styles
+
+%% PE (Green, Dotted)
+linkStyle 2 stroke:#008000
+
+%% Neutrals (Blue)
+linkStyle 3,7,8,9,10,14,16,17,21,23,24,28,30 stroke:#0000FF
+
+%% Phases (Brown)
+linkStyle 0,1,4,5,6,11,12,13,15,18,19,20,22,25,26,27,29 stroke:#A52A2A
