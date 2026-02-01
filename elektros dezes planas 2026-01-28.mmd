@@ -25,7 +25,7 @@ subgraph Rail_0 [Rail 0: Main Incoming]
 
     subgraph rail_0_devices
         MB[Main Breaker 32A] ~~~ 
-        SPD[SPD Type 2 4P] ~~~ 
+        SPD[SPD Noark Ex9UE1+2 12.5 3PN 275] ~~~ 
         MCB_kitchen_3P[MCB 3P C16: Oven/Hob<br/>Load: ~4000W+<br/>Cable: 5x2.5mm²] 
         Split_Point_0_L((Dist. Block))
     end
@@ -37,7 +37,7 @@ subgraph Rail_0 [Rail 0: Main Incoming]
     Split_Point_0_L ==>|6mm²| SPD
     Split_Point_0_L ==>|4mm²| MCB_kitchen_3P
     Incomer_N -->|6mm²| SPD
-    Incomer_PE -.->|6mm²| SPD
+    Incomer_PE -.->|10mm²| SPD
 end
 
 subgraph Rail_1 [Rail 1: Phase L1]
@@ -46,10 +46,10 @@ subgraph Rail_1 [Rail 1: Phase L1]
     subgraph rail_1_devices    
         Busbar_1[Comb Busbar L1] ~~~
         MCB_darbo_roz[MCB C16: Child Room Soc.<br/>Load: 1000W<br/>Cable: 3x2.5mm²] ~~~
-        MCB_vaiko_lemp[MCB C2: Child Room Lights<br/>Load: 100W<br/>Cable: 3x1.5mm²] ~~~
-        MCB_svetaine_lemp[MCB C2: Living Room Lights<br/>Load: 150W<br/>Cable: 3x1.5mm²] ~~~
+        MCB_vaiko_lemp[MCB B6: Child Room Lights<br/>Load: 100W<br/>Cable: 3x1.5mm²] ~~~
+        MCB_svetaine_lemp[MCB B6: Living Room Lights<br/>Load: 150W<br/>Cable: 3x1.5mm²] ~~~
         MCB_miegamas_tv[MCB C6: Bedroom TV<br/>Load: 200W<br/>Cable: 3x2.5mm²] ~~~
-        MCB_miegamas_lemp[MCB C2: Bedroom Light<br/>Load: 100W<br/>Cable: 3x1.5mm²] ~~~
+        MCB_miegamas_lemp[MCB B6: Bedroom Light<br/>Load: 100W<br/>Cable: 3x1.5mm²] ~~~
         MCB_drabuzine_roz[MCB C6: Wardrobe/NAS<br/>Load: 100W<br/>Cable: 3x2.5mm²] ~~~
         MCB_svetaine_roz[MCB B16: Living Room Soc.<br/>Load: 800W<br/>Cable: 3x2.5mm²] 
     end
@@ -101,7 +101,7 @@ subgraph Rail_2 [Rail 2: Phase L2]
 
     subgraph rail_2_devices
         Busbar_2[Comb Busbar L2] ~~~
-        MCB_lauko_lemp[MCB C2: Garden Lights<br/>Load: 70W<br/>Cable: 3x1.5mm²] ~~~
+        MCB_lauko_lemp[MCB B6: Garden Lights<br/>Load: 70W<br/>Cable: 3x1.5mm²] ~~~
         MCB_lauko_roz[MCB C16: EV Leaf<br/>Load: 2500W<br/>Cable: 3x2.5mm²] ~~~
         MCB_indaplove[MCB C16: Dishwasher<br/>Load: 2000W<br/>Cable: 3x2.5mm²] ~~~
         MCB_wc1[MCB C10: WC1 Socket<br/>Load: 10W<br/>Cable: 3x2.5mm²] ~~~
@@ -129,7 +129,7 @@ subgraph Rail_3 [Rail 3: Phase L3]
 
     subgraph rail_3_devices
         Busbar_3[Comb Busbar L3] ~~~
-        MCB_garazo_lemp[MCB C2: Garage Lamps<br/>Load: 200W<br/>Cable: 3x1.5mm²] ~~~
+        MCB_garazo_lemp[MCB B6: Garage Lamps<br/>Load: 200W<br/>Cable: 3x1.5mm²] ~~~
         MCB_signalizacija[MCB B6: Security<br/>Load: 15W<br/>Cable: 3x2.5mm²] ~~~
         MCB_vartai[MCB C6: Garage Door<br/>Load: 100W<br/>Cable: 3x2.5mm²] ~~~
         MCB_katilas[MCB C6: Gas Heater<br/>Load: 150W<br/>Cable: 3x2.5mm²] ~~~
