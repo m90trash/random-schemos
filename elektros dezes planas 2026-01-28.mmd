@@ -10,24 +10,24 @@ graph LR
 
 subgraph Legend [Legend: Wire Types]
     direction LR
-        Leg1[Line L] ==>|10mm² / Busbar| Leg2[Phase]
-        Leg3[Neutral N] -->|Blue| Leg4[Neutral]
-        Leg5[Earth PE] -.->|Green/Yellow| Leg6[Earth]
+        Leg1[Line L]:::c_line ==>|10mm² / Busbar| Leg2[Phase]
+        Leg3[Neutral N]:::c_neutral -->|Blue| Leg4[Neutral]
+        Leg5[Earth PE]:::c_ground -.->|Green/Yellow| Leg6[Earth]
 end
 
 subgraph Rail_0 [Rail 0: Main Incoming]
     
     subgraph rail_0_I_devices  
-        Incomer_L[3-Phase Supply]
-        Incomer_PE[Ground Bar]
-        Incomer_N[Neutral Bar]
+        Incomer_L[3-Phase Supply]:::c_line
+        Incomer_PE[Ground Bar]:::c_ground
+        Incomer_N[Neutral Bar]:::c_neutral
     end
 
     subgraph rail_0_devices
         MB[Main Breaker 32A] ~~~ 
         SPD[SPD Noark Ex9UE1+2 12.5 3PN 275] ~~~ 
-        MCB_kitchen_3P[MCB 3P C16: Oven/Hob<br/>Load: ~4000W+<br/>Cable: 5x2.5mm²] 
-        Split_Point_0_L((Dist. Block))
+        MCB_kitchen_3P[MCB 3P C16: Oven/Hob<br/>Load: ~4000W+<br/>Cable: 5x2.5mm²]:::c_monitored ~~~ 
+        Split_Point_0_L((" ")):::c_line     
     end
   
     %% Internal Distribution (Backbone)
@@ -44,17 +44,17 @@ subgraph Rail_1 [Rail 1: Phase L1]
     R1[RCCB 1: 40A] 
     
     subgraph rail_1_devices    
-        Busbar_1[Comb Busbar L1] ~~~
-        MCB_darbo_roz[MCB C16: Child Room Soc.<br/>Load: 1000W<br/>Cable: 3x2.5mm²] ~~~
+        Busbar_1[Comb Busbar L1]:::c_line ~~~
+        MCB_darbo_roz[MCB C16: Child Room Soc.<br/>Load: 1000W<br/>Cable: 3x2.5mm²]:::c_monitored ~~~
         MCB_vaiko_lemp[MCB B6: Child Room Lights<br/>Load: 100W<br/>Cable: 3x1.5mm²] ~~~
         MCB_svetaine_lemp[MCB B6: Living Room Lights<br/>Load: 150W<br/>Cable: 3x1.5mm²] ~~~
         MCB_miegamas_tv[MCB C6: Bedroom TV<br/>Load: 200W<br/>Cable: 3x2.5mm²] ~~~
         MCB_miegamas_lemp[MCB B6: Bedroom Light<br/>Load: 100W<br/>Cable: 3x1.5mm²] ~~~
         MCB_drabuzine_roz[MCB C6: Wardrobe/NAS<br/>Load: 100W<br/>Cable: 3x2.5mm²] ~~~
-        MCB_svetaine_roz[MCB B16: Living Room Soc.<br/>Load: 800W<br/>Cable: 3x2.5mm²] 
+        MCB_svetaine_roz[MCB B16: Living Room Soc.<br/>Load: 800W<br/>Cable: 3x2.5mm²]:::c_monitored 
     end
     
-    N_Bar1[N-Bar Rail 1]
+    N_Bar1[N-Bar Rail 1]:::c_neutral
     
     %% Connections    
     Split_Point_0_L ==>|6mm²| R1
@@ -75,11 +75,11 @@ end
 subgraph Rail_1_sub [Sub-box Rail: L1 Extension]
 
     subgraph devices_sub
-        Busbar_1_1[Comb Busbar L1-Sub] ~~~
-        MCB_skalbimo_roz[MCB C16: Washer/Dryer<br/>Load: 2000W<br/>Cable: 3x2.5mm²] ~~~    
-        MCB_ev_skoda_roz[MCB C16: EV Skoda<br/>Load: 2500W<br/>Cable: 3x2.5mm²] ~~~
-        MCB_rekup[MCB C6: Recuperation<br/>Load: 200W<br/>Cable: 3x2.5mm²] ~~~
-        MCB_network[MCB C6: Network<br/>Load: 100W<br/>Cable: 3x2.5mm²]     
+        Busbar_1_1[Comb Busbar L1-Sub]:::c_line ~~~
+        MCB_skalbimo_roz[MCB C16: Washer/Dryer<br/>Load: 2000W<br/>Cable: 3x2.5mm²]:::c_monitored ~~~    
+        MCB_ev_skoda_roz[MCB C16: EV Skoda<br/>Load: 2500W<br/>Cable: 3x2.5mm²]:::c_monitored ~~~
+        MCB_rekup[MCB C6: Recuperation<br/>Load: 200W<br/>Cable: 3x2.5mm²]:::c_monitored ~~~
+        MCB_network[MCB C6: Network<br/>Load: 100W<br/>Cable: 3x2.5mm²]:::c_monitored     
     end
     
     %% Feed to Sub-box
@@ -91,25 +91,24 @@ subgraph Rail_1_sub [Sub-box Rail: L1 Extension]
     Busbar_1_1 ==> MCB_rekup
     Busbar_1_1 ==> MCB_network
     
-    N_Bar1 -->|4mm²| N_Bar1_1[N-Bar Rail 1-1]
+    N_Bar1 -->|4mm²| N_Bar1_1[N-Bar Rail 1-1]:::c_neutral
 end
 
 subgraph Rail_2 [Rail 2: Phase L2]
     R2[RCCB 2: 40A] 
     Incomer_N -->|6mm²| R2    
+    N_Bar2[N-Bar Rail 2]:::c_neutral
     R2 -->|6mm²| N_Bar2  
 
     subgraph rail_2_devices
-        Busbar_2[Comb Busbar L2] ~~~
-        MCB_lauko_lemp[MCB B6: Garden Lights<br/>Load: 70W<br/>Cable: 3x1.5mm²] ~~~
-        MCB_lauko_roz[MCB C16: EV Leaf<br/>Load: 2500W<br/>Cable: 3x2.5mm²] ~~~
-        MCB_indaplove[MCB C16: Dishwasher<br/>Load: 2000W<br/>Cable: 3x2.5mm²] ~~~
+        Busbar_2[Comb Busbar L2]:::c_line ~~~
+        MCB_lauko_lemp[MCB B6: Garden Lights<br/>Load: 70W<br/>Cable: 3x1.5mm²]:::c_monitored ~~~
+        MCB_lauko_roz[MCB C16: EV Leaf<br/>Load: 2500W<br/>Cable: 3x2.5mm²]:::c_monitored ~~~
+        MCB_indaplove[MCB C16: Dishwasher<br/>Load: 2000W<br/>Cable: 3x2.5mm²]:::c_monitored ~~~
         MCB_wc1[MCB C10: WC1 Socket<br/>Load: 10W<br/>Cable: 3x2.5mm²] ~~~
         MCB_wc2[MCB C10: WC2 Socket<br/>Load: 10W<br/>Cable: 3x2.5mm²] ~~~
         MCB_gyvatukas[MCB C10: Towel Dryer<br/>Load: 30W<br/>Cable: 3x2.5mm²] 
     end
-    
-    N_Bar2[N-Bar Rail 2]
     
     %% Connections    
     Split_Point_0_L ==>|6mm²| R2
@@ -125,20 +124,19 @@ end
 subgraph Rail_3 [Rail 3: Phase L3]
     R3[RCCB 3: 40A] 
     Incomer_N -->|6mm²| R3
+    N_Bar3[N-Bar Rail 3]:::c_neutral
     R3 -->|6mm²| N_Bar3  
 
     subgraph rail_3_devices
-        Busbar_3[Comb Busbar L3] ~~~
+        Busbar_3[Comb Busbar L3]:::c_line ~~~
         MCB_garazo_lemp[MCB B6: Garage Lamps<br/>Load: 200W<br/>Cable: 3x1.5mm²] ~~~
         MCB_signalizacija[MCB B6: Security<br/>Load: 15W<br/>Cable: 3x2.5mm²] ~~~
         MCB_vartai[MCB C6: Garage Door<br/>Load: 100W<br/>Cable: 3x2.5mm²] ~~~
-        MCB_katilas[MCB C6: Gas Heater<br/>Load: 150W<br/>Cable: 3x2.5mm²] ~~~
+        MCB_katilas[MCB C6: Gas Heater<br/>Load: 150W<br/>Cable: 3x2.5mm²]:::c_monitored ~~~
         MCB_garazo_roz_1[MCB C16: Garage Soc 1<br/>Load: 500W<br/>Cable: 3x2.5mm²] ~~~
         MCB_garazo_roz_2[MCB C16: Garage Soc 2<br/>Load: 500W<br/>Cable: 3x2.5mm²] ~~~
-        MCB_virtuve[MCB C16: Kitchen Main<br/>Load: 1500W<br/>Cable: 3x2.5mm²]  
+        MCB_virtuve[MCB C16: Kitchen Main<br/>Load: 1500W<br/>Cable: 3x2.5mm²]:::c_monitored  
     end
-
-    N_Bar3[N-Bar Rail 3]
 
     %% Connections    
     Split_Point_0_L ==>|6mm²| R3
@@ -153,17 +151,9 @@ subgraph Rail_3 [Rail 3: Phase L3]
 end
 
 %% Styles
-style Incomer_L fill:#A52A2A,color:#fff
-style Busbar_1 fill:#A52A2A,color:#fff
-style Busbar_1_1 fill:#A52A2A,color:#fff
-style Busbar_2 fill:#A52A2A,color:#fff
-style Busbar_3 fill:#A52A2A,color:#fff
-
-style Incomer_N fill:#0000ff,color:#fff
-style N_Bar1 fill:#0000ff,color:#fff
-style N_Bar1_1 fill:#0000ff,color:#fff
-style N_Bar2 fill:#0000ff,color:#fff
-style N_Bar3 fill:#0000ff,color:#fff
-
-style Incomer_PE fill:#008000,color:#fff
 style SPD fill:#FFA500,color:#000
+
+classDef c_line fill:#A52A2A,color:#fff;
+classDef c_neutral fill:#0000ff,color:#fff;
+classDef c_ground fill:#008000,color:#fff;
+classDef c_monitored stroke:#996699,stroke-width:4px;
