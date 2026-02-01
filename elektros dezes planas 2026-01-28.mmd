@@ -1,4 +1,11 @@
-graph TD
+graph LR
+
+%% Description: its plan for my home distribution box, 
+%% preparing for myself, dont care about following standards. 
+%% It has 4 DIN rails, and 1 sub-box with 1 DIN rail.
+%% Execution:
+%% 1 step [done]  : draw my idea in mermaid js.  definition of done: when gemini AI can  fully understand what is written. no ambiguity, no extra explanation is needed, everything is clear from schema.
+%% 2 step : review part - this is where electricity knowledge is needed. validate devices, load, cable thickness and so on. definition of done: plan is ready for real installation, i know how to connect everything and what devices to buy. 
 
 subgraph Legend [Legend: Wire Types]
         direction LR
@@ -13,11 +20,11 @@ subgraph Rail_0
   Incomer_L[3-Phase Supply]
   Incomer_PE[Ground Bar]
   Incomer_N[Neutral Bar]
-  %%PE_Bus[Main Earth Bar]
-  %%N_Block[Main Neutral Block]
  end
  subgraph rail_0_devices
-  MB[Main Breaker 32A] ~~~ SPD[SPD Type 2 4P] ~~~ MCB_kitchen_3P[MCB 3P C16: Oven/Hob]
+  MB[Main Breaker 32A] ~~~ 
+  SPD[SPD Type 2 4P] ~~~ 
+  MCB_kitchen_3P[MCB 3P C16: Oven/Hob] 
   Split_Point_0_L(( ))
  end
  
@@ -32,8 +39,10 @@ subgraph Rail_0
 end
 
 subgraph Rail_1 [Rail 1: L1]
+  R1[RCCB 1: 40A] 
   subgraph rail_1_devices    
-    R1[RCCB 1: 40A] ~~~
+    %%Split_Point_1_L(( )) ~~~
+    Busbar_1[Comb Busbar L1] ~~~
     MCB_darbo_roz[MCB C16: 2x Child room soc. 1000w] ~~~
     MCB_vaiko_lemp[MCB C2: 2x Child room light 100w] ~~~
     MCB_svetaine_lemp[MCB C2: Living room light 150w] ~~~
@@ -41,100 +50,121 @@ subgraph Rail_1 [Rail 1: L1]
     MCB_miegamas_lemp[MCB C2: Bedroom light 100w] ~~~
     MCB_drabuzine_roz[MCB C6: Wardrobe/NAS 100w] ~~~
     MCB_svetaine_roz[MCB B16: Living room soc. 800w] 
-   
+    
   end
     N_Bar1[N-Bar Rail 1]
-    Split_Point_1_L(( ))    
     
-    Split_Point_1_L ==> MCB_darbo_roz
-    Split_Point_1_L ==> MCB_vaiko_lemp
-    Split_Point_1_L ==> MCB_svetaine_lemp
-    Split_Point_1_L ==> MCB_miegamas_tv
-    Split_Point_1_L ==> MCB_miegamas_lemp
-    Split_Point_1_L ==> MCB_drabuzine_roz
-    Split_Point_1_L ==> MCB_svetaine_roz
-
-    %% connections
+    
+    %% connections    
     Split_Point_0_L ==> R1
-    R1 ==> Split_Point_1_L
-
+    R1 ==> Busbar_1
+    Busbar_1 ==> MCB_darbo_roz
+    Busbar_1 ==> MCB_vaiko_lemp
+    Busbar_1 ==> MCB_svetaine_lemp
+    Busbar_1 ==> MCB_miegamas_tv
+    Busbar_1 ==> MCB_miegamas_lemp
+    Busbar_1 ==> MCB_drabuzine_roz
+    Busbar_1 ==> MCB_svetaine_roz    
+    
     Incomer_N --> R1    
-    R1 --> N_Bar1
-    
-    
+    R1 --> N_Bar1    
 end
 
 subgraph Rail_1_sub [Sub-box rail: L1]
 
   subgraph devices
+    Busbar_1_1[Comb Busbar L1] ~~~
     MCB_skalbimo_roz[MCB C10: washer dryer 2000w] ~~~    
     MCB_ev_skoda_roz[MCB C10: ev-skoda 2500w] ~~~
     MCB_rekup[MCB B6: recuperation 200w] ~~~
-    MCB_network[MCB C6: network 100w]  
+    MCB_network[MCB C6: network 100w]     
   end
-    Split_Point_1_1_L(( ))    
-    Split_Point_1_L ==> Split_Point_1_1_L
-    Split_Point_1_1_L ==> MCB_skalbimo_roz
-    Split_Point_1_1_L ==> MCB_ev_skoda_roz
-    Split_Point_1_1_L ==> MCB_rekup
-    Split_Point_1_1_L ==> MCB_network
+    
+    Busbar_1 ==> Busbar_1_1
+    Busbar_1_1 ==> MCB_skalbimo_roz
+    Busbar_1_1 ==> MCB_ev_skoda_roz
+    Busbar_1_1 ==> MCB_rekup
+    Busbar_1_1 ==> MCB_network
     
     N_Bar1 --> N_Bar1_1[N-Bar Rail 1-1]
 end
 
-%%subgraph Rail_2 [Rail 2: L2]
-%%MCB_kitchen_3P == "10mm² L2" ==> R2[RCCB 2: 40A]
+subgraph Rail_2 [Rail 2: L2]
+  R2[RCCB 2: 40A] 
+  Incomer_N --> R2    
+  R2 --> N_Bar2  
 
+  subgraph rail_2_devices
+    Busbar_2[Comb Busbar L2] ~~~
+    MCB_lauko_lemp[MCB C2: Garden lights 70w] ~~~
+    MCB_lauko_roz[MCB B25: EV-Leaf 2500w] ~~~
+    MCB_indaplove[MCB C10: Dishwasher 2000w] ~~~
+    MCB_wc1[MCB C10: WC1 soc 10w] ~~~
+    MCB_wc2[MCB C10: WC2 soc 10w] ~~~
+    MCB_gyvatukas[MCB C10: Towel dryer 30w] 
+    
+  end
+    N_Bar2[N-Bar Rail 2]
+    
+    %% connections    
+    Split_Point_0_L ==> R2
+    R2 ==> Busbar_2
+    Busbar_2 ==> MCB_lauko_lemp
+    Busbar_2 ==> MCB_lauko_roz
+    Busbar_2 ==> MCB_indaplove
+    Busbar_2 ==> MCB_wc1
+    Busbar_2 ==> MCB_wc2
+    Busbar_2 ==> MCB_gyvatukas
+end
 
-%%N_Block -- "10mm² N" --> R2
+subgraph Rail_3 [Rail 3: L3]
+  R3[RCCB 3: 40A] 
+  Incomer_N --> R3
+  R3 --> N_Bar3  
 
-%%    R2 -- "10mm² N" --> N_Bar2[N-Bar Rail 2]
+  subgraph rail_3_devices
+    Busbar_3[Comb Busbar L3] ~~~
+    MCB_garazo_lemp[MCB C2: garage lamps 200w] ~~~
+    MCB_signalizacija[MCB B6: security system 15w] ~~~
+    MCB_vartai[MCB B6: garage doors motor 100w] ~~~
+    MCB_katilas[MCB B6: gas floor & water heater 150w] ~~~
+    MCB_garazo_roz_1[MCB C16: garage sockets 500w] ~~~
+    MCB_garazo_roz_2[MCB C16: garage sockets 500w] ~~~
+    MCB_virtuve[MCB C16: kitchen. fridge. coffe machine. 1500w]  
+  end
 
-%%    R2 ==>|"Busbar L2"| MCB_lauko_lemp[MCB C2: Garden lights 70w]
-    %% Busbar L2: Distributes Phase L2 to all MCBs in this rail 
-%%    MCB_lauko_lemp ==> MCB_lauko_roz[MCB B25: EV-Leaf 2500w]
-%%    MCB_lauko_roz ==> MCB_indaplove[MCB C10: Dishwasher 2000w]
-%%    MCB_indaplove ==> MCB_wc1[MCB C10: WC1 soc 10w]
-%%    MCB_wc1 ==> MCB_wc2[MCB C10: WC2 soc 10w]
-%%    MCB_wc2 ==> MCB_gyvatukas[MCB C10: Towel dryer 30w]
-%%end
+  N_Bar3[N-Bar Rail 3]
 
-%%subgraph Rail_3 [Rail 3: L3]
-%%MCB_kitchen_3P == "10mm² L3" ==> R3[RCCB 3: 40A]
-
-%%N_Block -- "10mm² N" --> R3
-
-%%    R3 -- "10mm² N" --> N_Bar3[N-Bar Rail 3]
-
-%%    R3 ==>|"Busbar L3"| MCB_garazo_lemp[MCB C2: garage lamps 200w]
-    %% Busbar L3: Distributes Phase L3 to all MCBs in this rail 
-%%    MCB_garazo_lemp ==> MCB_signalizacija[MCB B6: security system 15w]
-%%    MCB_signalizacija ==> MCB_vartai[MCB B6: garage doors motor 100w]
-%%    MCB_vartai ==> MCB_katilas[MCB B6: gas floor & water heater 150w]
-%%    MCB_katilas ==> MCB_garazo_roz_1[MCB C16: garage sockets 500w]
-%%    MCB_garazo_roz_1 ==> MCB_garazo_roz_2[MCB C16: garage sockets 500w]
-%%    MCB_garazo_roz_2 ==> MCB_virtuve[MCB C16: kitchen. fridge. coffe machine. 1500w]
-%%end
+  %% connections    
+  Split_Point_0_L ==> R3
+  R3 ==> Busbar_3
+  Busbar_3 ==> MCB_garazo_lemp
+  Busbar_3 ==> MCB_signalizacija 
+  Busbar_3 ==> MCB_vartai
+  Busbar_3 ==> MCB_katilas
+  Busbar_3 ==> MCB_garazo_roz_1
+  Busbar_3 ==> MCB_garazo_roz_2
+  Busbar_3 ==> MCB_virtuve
+end
 
 %% Element Styles
+
+%% line
+style Incomer_L fill:#A52A2A ,color:#fff
+style Busbar_1 fill:#A52A2A,color:#fff
+style Busbar_1_1 fill:#A52A2A,color:#fff
+style Busbar_2 fill:#A52A2A,color:#fff
+style Busbar_3 fill:#A52A2A,color:#fff
+
+%% neutral
+style Incomer_N fill:#0000ff,color:#fff
 style N_Block fill:#0000ff,color:#fff
 style N_Bar1 fill:#0000ff,color:#fff
 style N_Bar1_1 fill:#0000ff,color:#fff
 style N_Bar2 fill:#0000ff,color:#fff
 style N_Bar3 fill:#0000ff,color:#fff
+
+%% ground
 style PE_Bus fill:#008000,color:#fff
-style Incomer_L fill:#A52A2A ,color:#fff
-style Incomer_N fill:#0000ff,color:#fff
 style Incomer_PE fill:#008000,color:#fff
 
-
-%% Link Styles
-
-%% PE (Green, Dotted)
-%% linkStyle 2 stroke:#008000
-
-%% Neutrals (Blue)
-%% linkStyle 3,7,8,9,10,14,16,17,21,23,24,28,30 stroke:#0000FF
-
-%% Phases (Brown)
-%% linkStyle 0,1,4,5,6,11,12,13,15,18,19,20,22,25,26,27,29 stroke:#A52A2A
