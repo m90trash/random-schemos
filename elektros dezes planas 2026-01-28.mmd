@@ -15,7 +15,7 @@ subgraph Legend [Legend: Wire Types]
         Leg5[Earth PE] -.->|Green/Yellow| Leg6[Earth]
 end
 
-subgraph Rail_0  
+subgraph Rail_0 [Rail 0: Main Incoming]
     
     subgraph rail_0_I_devices  
         Incomer_L[3-Phase Supply]
@@ -27,16 +27,17 @@ subgraph Rail_0
         MB[Main Breaker 32A] ~~~ 
         SPD[SPD Type 2 4P] ~~~ 
         MCB_kitchen_3P[MCB 3P C16: Oven/Hob<br/>Load: ~4000W+<br/>Cable: 5x2.5mm²] 
-        Split_Point_0_L((Distribution Block))
+        Split_Point_0_L((Dist. Block))
     end
   
-    %% Internal Distribution
-    Incomer_L ==>|10mm²| MB
-    MB ==>|10mm²| Split_Point_0_L  
-    Split_Point_0_L ==>|10mm²| SPD
+    %% Internal Distribution (Backbone)
+    %% 6mm² is safe for 32A Main Breaker
+    Incomer_L ==>|6mm²| MB
+    MB ==>|6mm²| Split_Point_0_L  
+    Split_Point_0_L ==>|6mm²| SPD
     Split_Point_0_L ==>|4mm²| MCB_kitchen_3P
-    Incomer_N -->|10mm²| SPD
-    Incomer_PE -.->|10mm²| SPD
+    Incomer_N -->|6mm²| SPD
+    Incomer_PE -.->|6mm²| SPD
 end
 
 subgraph Rail_1 [Rail 1: Phase L1]
@@ -47,7 +48,7 @@ subgraph Rail_1 [Rail 1: Phase L1]
         MCB_darbo_roz[MCB C16: Child Room Soc.<br/>Load: 1000W<br/>Cable: 3x2.5mm²] ~~~
         MCB_vaiko_lemp[MCB C2: Child Room Lights<br/>Load: 100W<br/>Cable: 3x1.5mm²] ~~~
         MCB_svetaine_lemp[MCB C2: Living Room Lights<br/>Load: 150W<br/>Cable: 3x1.5mm²] ~~~
-        MCB_miegamas_tv[MCB B6: Bedroom TV<br/>Load: 200W<br/>Cable: 3x2.5mm²] ~~~
+        MCB_miegamas_tv[MCB C6: Bedroom TV<br/>Load: 200W<br/>Cable: 3x2.5mm²] ~~~
         MCB_miegamas_lemp[MCB C2: Bedroom Light<br/>Load: 100W<br/>Cable: 3x1.5mm²] ~~~
         MCB_drabuzine_roz[MCB C6: Wardrobe/NAS<br/>Load: 100W<br/>Cable: 3x2.5mm²] ~~~
         MCB_svetaine_roz[MCB B16: Living Room Soc.<br/>Load: 800W<br/>Cable: 3x2.5mm²] 
@@ -56,8 +57,8 @@ subgraph Rail_1 [Rail 1: Phase L1]
     N_Bar1[N-Bar Rail 1]
     
     %% Connections    
-    Split_Point_0_L ==>|10mm²| R1
-    R1 ==>|10mm²| Busbar_1
+    Split_Point_0_L ==>|6mm²| R1
+    R1 ==>|6mm²| Busbar_1
     
     Busbar_1 ==> MCB_darbo_roz
     Busbar_1 ==> MCB_vaiko_lemp
@@ -67,8 +68,8 @@ subgraph Rail_1 [Rail 1: Phase L1]
     Busbar_1 ==> MCB_drabuzine_roz
     Busbar_1 ==> MCB_svetaine_roz    
     
-    Incomer_N -->|10mm²| R1    
-    R1 -->|10mm²| N_Bar1    
+    Incomer_N -->|6mm²| R1    
+    R1 -->|6mm²| N_Bar1    
 end
 
 subgraph Rail_1_sub [Sub-box Rail: L1 Extension]
@@ -82,20 +83,21 @@ subgraph Rail_1_sub [Sub-box Rail: L1 Extension]
     end
     
     %% Feed to Sub-box
-    Busbar_1 ==>|6mm² Cable| Busbar_1_1
+    %% 4mm² is safe for 21A load and acceptable for 32A protection
+    Busbar_1 ==>|4mm² Cable| Busbar_1_1
     
     Busbar_1_1 ==> MCB_skalbimo_roz
     Busbar_1_1 ==> MCB_ev_skoda_roz
     Busbar_1_1 ==> MCB_rekup
     Busbar_1_1 ==> MCB_network
     
-    N_Bar1 -->|6mm²| N_Bar1_1[N-Bar Rail 1-1]
+    N_Bar1 -->|4mm²| N_Bar1_1[N-Bar Rail 1-1]
 end
 
 subgraph Rail_2 [Rail 2: Phase L2]
     R2[RCCB 2: 40A] 
-    Incomer_N -->|10mm²| R2    
-    R2 -->|10mm²| N_Bar2  
+    Incomer_N -->|6mm²| R2    
+    R2 -->|6mm²| N_Bar2  
 
     subgraph rail_2_devices
         Busbar_2[Comb Busbar L2] ~~~
@@ -110,8 +112,8 @@ subgraph Rail_2 [Rail 2: Phase L2]
     N_Bar2[N-Bar Rail 2]
     
     %% Connections    
-    Split_Point_0_L ==>|10mm²| R2
-    R2 ==>|10mm²| Busbar_2
+    Split_Point_0_L ==>|6mm²| R2
+    R2 ==>|6mm²| Busbar_2
     Busbar_2 ==> MCB_lauko_lemp
     Busbar_2 ==> MCB_lauko_roz
     Busbar_2 ==> MCB_indaplove
@@ -122,8 +124,8 @@ end
 
 subgraph Rail_3 [Rail 3: Phase L3]
     R3[RCCB 3: 40A] 
-    Incomer_N -->|10mm²| R3
-    R3 -->|10mm²| N_Bar3  
+    Incomer_N -->|6mm²| R3
+    R3 -->|6mm²| N_Bar3  
 
     subgraph rail_3_devices
         Busbar_3[Comb Busbar L3] ~~~
@@ -139,8 +141,8 @@ subgraph Rail_3 [Rail 3: Phase L3]
     N_Bar3[N-Bar Rail 3]
 
     %% Connections    
-    Split_Point_0_L ==>|10mm²| R3
-    R3 ==>|10mm²| Busbar_3
+    Split_Point_0_L ==>|6mm²| R3
+    R3 ==>|6mm²| Busbar_3
     Busbar_3 ==> MCB_garazo_lemp
     Busbar_3 ==> MCB_signalizacija 
     Busbar_3 ==> MCB_vartai
