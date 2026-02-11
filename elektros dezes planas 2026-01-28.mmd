@@ -46,13 +46,13 @@ subgraph Rail_1 [Rail 1: Phase L1]
     
     subgraph rail_1_devices    
         Busbar_1[Comb Busbar L1]:::c_line ~~~
-        MCB_vaiko_roz[MCB B16: Vaiko k. roz<br/>Load: 1000W<br/>Cable: 3x2.5mm²]:::c_monitored_mini ~~~
-        MCB_vaiko_sv[MCB B6: Vaiko k. sv<br/>Load: 100W<br/>Cable: 3x1.5mm²] ~~~
-        MCB_svetaine_sv[MCB B6: Svetaine sv<br/>Load: 150W<br/>Cable: 3x1.5mm²] ~~~
-        MCB_miegamas_tv[MCB B10: Miegamas TV<br/>Load: 200W<br/>Cable: 3x2.5mm²] ~~~
-        MCB_miegamas_sv[MCB B6: Miegamas sv<br/>Load: 100W<br/>Cable: 3x1.5mm²] ~~~
-        MCB_drabuzine_roz[MCB B10: Miegamas & drabuzine<br/>Load: 100W<br/>Cable: 3x2.5mm²] ~~~
-        MCB_svetaine_roz[MCB B16: Svetaine roz.<br/>Load: 800W<br/>Cable: 3x2.5mm²]:::c_monitored_mini 
+        MCB_vaiko_roz[MCB B16: Vaiko k. roz<br/>Load: 1000W]:::c_monitored_mini ~~~
+        MCB_vaiko_sv[MCB B6: Vaiko k. sv<br/>Load: 100W] ~~~
+        MCB_svetaine_sv[MCB B6: Svetaine sv<br/>Load: 150W] ~~~
+        MCB_miegamas_tv[MCB B10: Miegamas TV<br/>Load: 200W] ~~~
+        MCB_miegamas_sv[MCB B6: Miegamas sv<br/>Load: 100W] ~~~
+        MCB_drabuzine_roz[MCB B10: Miegamas & drabuzine<br/>Load: 100W] ~~~
+        MCB_svetaine_roz[MCB B16: Svetaine roz.<br/>Load: 800W]:::c_monitored_mini 
     end
     
     N_Bar1[N-Bar Rail 1]:::c_neutral
@@ -77,10 +77,10 @@ subgraph Rail_1_sub [Sub-box Rail: L1 Extension]
 
     subgraph devices_sub
         Busbar_1_1[Comb Busbar L1-Sub]:::c_line ~~~
-        MCB_skalbimo_roz[MCB C16: Washer/Dryer<br/>Load: 2000W<br/>Cable: 3x2.5mm²]:::c_monitored_mini ~~~    
-        MCB_ev_skoda_roz[MCB C16: EV Skoda<br/>Load: 2500W<br/>Cable: 3x2.5mm²]:::c_monitored_mini ~~~
-        MCB_rekup[MCB C6: Recuperation<br/>Load: 200W<br/>Cable: 3x2.5mm²]:::c_monitored_snf ~~~
-        MCB_network[MCB B6: Network<br/>Load: 100W<br/>Cable: 3x2.5mm²]:::c_monitored_snf     
+        MCB_skalbimo_roz[MCB C16: Washer/Dryer<br/>Load: 2000W]:::c_monitored_mini ~~~    
+        MCB_ev_skoda_roz[MCB C16: EV Skoda<br/>Load: 2500W]:::c_monitored_mini ~~~
+        MCB_rekup[MCB C6: Recuperation<br/>Load: 200W]:::c_monitored_snf ~~~
+        MCB_network[MCB B6: Network<br/>Load: 100W]:::c_monitored_snf     
     end
     
     %% Feed to Sub-box
@@ -103,13 +103,13 @@ subgraph Rail_2 [Rail 2: Phase L2]
 
     subgraph rail_2_devices
         Busbar_2[Comb Busbar L2]:::c_line ~~~
-        MCB_fasado_sv[MCB B6: 2x Fasado sv <br/>Load: 70W<br/>Cable: 3x1.5mm²]:::c_monitored_1pm ~~~
-        MCB_lauko_roz[MCB C16: Lauko roz<br/>Load: 2500W<br/>Cable: 3x2.5mm²] ~~~
+        MCB_fasado_sv[MCB B6: 2x Fasado sv <br/>Load: 70W]:::c_monitored_1pm ~~~
+        MCB_lauko_roz[MCB C16: Lauko roz<br/>Load: 2500W] ~~~
                                                   %% laukui reiks turbut c_monitored_1pm c_monitored_1pm
-        MCB_indaplove[MCB C16: Indaplove<br/>Load: 2000W<br/>Cable: 3x2.5mm²]:::c_monitored_1pm ~~~
-        MCB_vartai[MCB C6: Vartai<br/>Load: 100W<br/>Cable: 3x2.5mm²] ~~~        
-        MCB_garazo_roz_2[MCB C16: Garazo roz<br/>Load: 500W<br/>Cable: 3x2.5mm²] ~~~
-        MCB_gyvatukas[MCB C10: Gyvatukas<br/>Load: 30W<br/>Cable: 3x2.5mm²] 
+        MCB_indaplove[MCB C16: Indaplove<br/>Load: 2000W]:::c_monitored_1pm ~~~
+        MCB_vartai[MCB C6: Vartai<br/>Load: 100W] ~~~        
+        MCB_garazo_roz_2[MCB C16: Garazo roz<br/>Load: 500W] ~~~
+        MCB_gyvatukas[MCB C10: Gyvatukas<br/>Load: 30W] 
         
     end
     
@@ -132,13 +132,13 @@ subgraph Rail_3 [Rail 3: Phase L3]
 
     subgraph rail_3_devices
         Busbar_3[Comb Busbar L3]:::c_line ~~~
-        MCB_garazo_lemp[MCB B6: Garazo sv<br/>Load: 200W<br/>Cable: 3x1.5mm²] ~~~
-        MCB_signalizacija[MCB B6: Signalizac<br/>Load: 15W<br/>Cable: 3x2.5mm²] ~~~
-        MCB_wc1[MCB C10: WC1 roz<br/>Load: 10W<br/>Cable: 3x2.5mm²] ~~~
-        MCB_katilas[MCB B10: Katilas<br/>Load: 150W<br/>Cable: 3x2.5mm²]:::c_monitored_mini ~~~
-        MCB_garazo_roz_4[MCB C16: Garazo roz #4<br/>Load: 500W<br/>Cable: 3x2.5mm²] ~~~
-        MCB_vonia[MCB C10: Vonia roz<br/>Load: 10W<br/>Cable: 3x2.5mm²] ~~~        
-        MCB_virtuve[MCB B16: Virtuve roz<br/>Load: 1500W<br/>Cable: 3x2.5mm²]:::c_monitored_mini  
+        MCB_garazo_lemp[MCB B6: Garazo sv<br/>Load: 200W] ~~~
+        MCB_signalizacija[MCB B6: Signalizac<br/>Load: 15W] ~~~
+        MCB_wc1[MCB C10: WC1 roz<br/>Load: 10W] ~~~
+        MCB_katilas[MCB B10: Katilas<br/>Load: 150W]:::c_monitored_mini ~~~
+        MCB_garazo_roz_4[MCB C16: Garazo roz #4<br/>Load: 500W] ~~~
+        MCB_vonia[MCB C10: Vonia roz<br/>Load: 10W] ~~~        
+        MCB_virtuve[MCB B16: Virtuve roz<br/>Load: 1500W]:::c_monitored_mini  
     end
 
     %% Connections    
